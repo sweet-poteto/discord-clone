@@ -1,5 +1,7 @@
 "use client";
 
+import { ServerWithMembersWithProfiles } from "@/types";
+import { MemberRole } from "@prisma/client";
 import {
   ChevronDown,
   LogOut,
@@ -9,26 +11,25 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
-import { MemberRole } from "@prisma/client";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ServerWithMemberWithProfile } from "@/types";
 import { useModal } from "@/hooks/use-modal-store";
 
 interface ServerHeaderProps {
-  server: ServerWithMemberWithProfile;
+  server: ServerWithMembersWithProfiles;
   role?: MemberRole;
 }
 
 export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const { onOpen } = useModal();
-  const isAdmin = (role = MemberRole.ADMIN);
+
+  const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
   return (
@@ -42,8 +43,8 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
       <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
           <DropdownMenuItem
-            className="px-3 py-2 text-sm text-indigo-600 cursor-pointer dark:text-indigo-400"
             onClick={() => onOpen("invite", { server })}
+            className="px-3 py-2 text-sm text-indigo-600 cursor-pointer dark:text-indigo-400"
           >
             Invite People
             <UserPlus className="w-4 h-4 ml-auto" />
@@ -51,8 +52,8 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            className="px-3 py-2 text-sm cursor-pointer"
             onClick={() => onOpen("editServer", { server })}
+            className="px-3 py-2 text-sm cursor-pointer"
           >
             Server Settings
             <Settings className="w-4 h-4 ml-auto" />
@@ -60,8 +61,8 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isAdmin && (
           <DropdownMenuItem
-            className="px-3 py-2 text-sm cursor-pointer"
             onClick={() => onOpen("members", { server })}
+            className="px-3 py-2 text-sm cursor-pointer"
           >
             Manage Members
             <Users className="w-4 h-4 ml-auto" />
@@ -69,8 +70,8 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isModerator && (
           <DropdownMenuItem
+            onClick={() => onOpen("createChannel")}
             className="px-3 py-2 text-sm cursor-pointer"
-            onClick={() => onOpen("createChannel", { server })}
           >
             Create Channel
             <PlusCircle className="w-4 h-4 ml-auto" />
@@ -78,13 +79,19 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
-          <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer text-rose-500">
+          <DropdownMenuItem
+            // onClick={() => onOpen("deleteServer", { server })}
+            className="px-3 py-2 text-sm cursor-pointer text-rose-500"
+          >
             Delete Server
             <Trash className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>
         )}
         {!isAdmin && (
-          <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer text-rose-500">
+          <DropdownMenuItem
+            // onClick={() => onOpen("leaveServer", { server })}
+            className="px-3 py-2 text-sm cursor-pointer text-rose-500"
+          >
             Leave Server
             <LogOut className="w-4 h-4 ml-auto" />
           </DropdownMenuItem>
