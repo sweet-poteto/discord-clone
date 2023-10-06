@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "MemberRole" AS ENUM ('ADMIN', 'MODERATOR', 'GUSET');
+CREATE TYPE "MemberRole" AS ENUM ('ADMIN', 'MODERATOR', 'GUEST');
 
 -- CreateEnum
 CREATE TYPE "ChannelType" AS ENUM ('TEXT', 'AUDIO', 'VIDEO');
@@ -33,7 +33,7 @@ CREATE TABLE "Server" (
 -- CreateTable
 CREATE TABLE "Member" (
     "id" TEXT NOT NULL,
-    "role" "MemberRole" NOT NULL DEFAULT 'GUSET',
+    "role" "MemberRole" NOT NULL DEFAULT 'GUEST',
     "profileId" TEXT NOT NULL,
     "serverId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

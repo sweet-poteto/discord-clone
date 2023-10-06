@@ -40,7 +40,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const roleIconMap = {
-  GUSET: null,
+  GUEST: null,
   MODERATOR: <ShieldCheck className="w-4 h-4 ml-2 text-indigo-500" />,
   ADMIN: <ShieldAlert className="w-4 h-4 ml-2 text-rose-500" />,
 };
@@ -131,11 +131,11 @@ export const MembersModal = () => {
                           <DropdownMenuPortal>
                             <DropdownMenuSubContent>
                               <DropdownMenuItem
-                                onClick={() => onRoleChange(member.id, "GUSET")}
+                                onClick={() => onRoleChange(member.id, "GUEST")}
                               >
                                 <Shield className="w-4 h-4 mr-2" />
                                 Guest
-                                {member.role === "GUSET" && (
+                                {member.role === "GUEST" && (
                                   <Check className="w-4 h-4 ml-auto" />
                                 )}
                               </DropdownMenuItem>
